@@ -8,6 +8,10 @@ Initial Commit for IGIS Geo API Project.
 
 NAVER API account created.
 
+NAVER geocode and static map API created. 
+
+TODO: create reverse geocode and web-dynamic map api
+
 </p>
 
 ##### Added
@@ -23,7 +27,9 @@ NAVER API account created.
     * fgeo: foreign geocode api (preferably google API)
 
 * files
-  * geocode/dgeo/conn.py
+  * geocode/dgeo/geocode.py
+  * maps/dmap/staticmap.py
+  * c.py
 
 </p>
 

@@ -77,3 +77,21 @@ API Explanation: https://api.ncloud-docs.com/docs/ai-naver-mapsgeocoding
 API Explanation: https://api.ncloud-docs.com/docs/ai-naver-mapsreversegeocoding
 
 </p>
+
+#### 4. NAVER MAPS IN USE
+
+```python
+from geocode.geocode import DomesticGeocode
+from maps.staticmap import DomesticStaticMap
+
+m = DomesticStaticMap()
+g = DomesticGeocode()
+
+ex = "경기도 안양시 만안구 안양동 627-287"
+
+# geocode: change address to coordinate system
+addr, xcord, ycord = g.addr_to_cord(ex)
+
+# save map image to img.png 
+m.gen_map_img(xcord, ycord, zoom=16)
+```

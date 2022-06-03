@@ -30,7 +30,10 @@ class DomesticGeocode:
     def gen_param(srch_key: str) -> Dict:
         return {"query": srch_key}
 
-    def addr_to_cord(self, address: str):
+    def addr_to_cord(self, address: str) -> (str, str, str):
+        """
+        :param address: searching keys
+        """
         p = self.gen_param(address)
         r = requests.get(
             url=const.DOMESTIC_GEOCODE_BASE,
@@ -38,13 +41,33 @@ class DomesticGeocode:
             headers=self.header
         )
 
-        print(r)
-        print(r.json())
+        addr, x, y = self.proc_res(r.json())
         r.close()
+
+        return addr, x, y
+
+    @ staticmethod
+    def proc_res(message: dict) -> (str, str, str):
+        """
+        :param message: parsed json
+        :return:
+        - address (road Addressname), x coordinate, y coordinate
+        - all string
+        """
+        try:
+            assert message['status'] == 'OK', const.DOMESTIC_GEOCODE_REQSTAT_ERR
+            assert message['meta']['totalCount'] == 1, const.DOMESTIC_GEOCODE_REQCNT_ERR
+        except AssertionError:
+            print(
+                format(const.DOMESTIC_GEOCODE_MSG, message['errorMessage'])
+            )
+        return (message['addresses'][0]['roadAddress'],
+                message['addresses'][0]['x'],
+                message['addresses'][0]['y'])
 
 
 if __name__ == "__main__":
     d = DomesticGeocode()
 
     testing = "경기도 안양시 만안구 안양동 627-287"
-    d.addr_to_cord(testing)
+    print(d.addr_to_cord(testing))
