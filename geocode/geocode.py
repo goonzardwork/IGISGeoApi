@@ -12,7 +12,7 @@ class DomesticGeocode:
 
     @staticmethod
     def __token() -> (str, str):
-        with open('../token.json') as file:
+        with open('./token.json') as file:
             tkn = json.load(file)
 
         return (tkn['navercloud']['username'],
@@ -61,9 +61,12 @@ class DomesticGeocode:
             print(
                 format(const.DOMESTIC_GEOCODE_MSG, message['errorMessage'])
             )
-        return (message['addresses'][0]['roadAddress'],
-                message['addresses'][0]['x'],
-                message['addresses'][0]['y'])
+            return None, None, None
+
+        else:
+            return (message['addresses'][0]['roadAddress'],
+                    message['addresses'][0]['x'],
+                    message['addresses'][0]['y'])
 
 
 if __name__ == "__main__":
